@@ -9,6 +9,12 @@ function createWindow(): void {
     height: 670,
     show: false,
     backgroundColor: "#17141f",
+    autoHideMenuBar: true,
+    titleBarStyle: "hiddenInset",
+    trafficLightPosition: {
+      x: 20,
+      y: 20,
+    },
     webPreferences: {
       preload: path.join(__dirname, "../preload/index.js"),
       sandbox: false,
