@@ -14,10 +14,7 @@ export function Sidebar() {
     queryKey: ["documents"],
     queryFn: async () => {
       const response = await window.api.fetchDocuments();
-
-      console.log(response);
-
-      return response;
+      return response.data;
     },
   });
 
@@ -57,7 +54,7 @@ export function Sidebar() {
           <Navigation.Section>
             <Navigation.SectionTitle>Workspace</Navigation.SectionTitle>
             <Navigation.SectionContent>
-              {data?.map((document) => {
+              {data?.map((document: any) => {
                 return (
                   <Navigation.Link key={document.id}>
                     {document.title}
