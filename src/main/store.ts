@@ -1,10 +1,12 @@
-import Store from "electron-store";
-import { Document } from "../shared/@types/ipc";
+import Store from 'electron-store'
+import { Document } from '../shared/@types/ipc'
 interface StoreType {
-  documents: Record<string, Document>;
+  documents: Record<string, Document>
 }
 export const store = new Store<StoreType>({
   defaults: {
     documents: {},
   },
-});
+})
+// Localizar em qual caminho os arquivos ficarão salvos
+// console.log(store.path)

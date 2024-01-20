@@ -1,11 +1,29 @@
-import Editor from "../components/Editor";
-import { ToC } from "../components/ToC";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { useParams } from 'react-router-dom'
+import Editor from '../components/Editor'
+import { ToC } from '../components/ToC'
+import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 
 export default function Document() {
+  const { id } = useParams<{ id: string }>()
+  const { data, isFetching } = useQuery({
+    queryKey: ['documents', id],
+    queryFn: async () => {
+      const response = await window.api.fetchDocument({ id: id! })
+      return response.data
+    },
+  })
+  const initialContent = useMemo(() => {
+    if (data) {
+      return `<h1>${data.title}</h1> ${data.content ?? '<p></p>'}`
+    }
+    return ''
+  }, [data])
   return (
     <main className="flex-1 flex py-12 px-10 gap-8">
       <aside className="hidden lg:block sticky top-8">
-        <span className={"text-rotion-300 font-semibold text-xs "}>
+        <span className={'text-rotion-300 font-semibold text-xs '}>
           TABLE OF CONTENTS
         </span>
         <ToC.Root>
@@ -17,8 +35,8 @@ export default function Document() {
         </ToC.Root>
       </aside>
       <section className="flex-1 flex flex-col items-center">
-        <Editor />
+        {!isFetching && data && <Editor content={initialContent} />}
       </section>
     </main>
-  );
+  )
 }
