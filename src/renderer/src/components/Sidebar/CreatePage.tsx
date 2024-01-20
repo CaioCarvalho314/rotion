@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus } from 'phosphor-react'
+import { useEffect } from 'react'
 
 export function CreatePage() {
   const queryClient = useQueryClient()
+
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async () => {
       const response = await window.api.createDocument()
@@ -19,6 +21,16 @@ export function CreatePage() {
       })
     },
   })
+
+  useEffect(() => {
+    function onNewDocument() {
+      mutateAsync()
+    }
+    const unsubscribe = window.api.onNewDocumentRequest(onNewDocument)
+    return () => {
+      unsubscribe()
+    }
+  }, [mutateAsync])
 
   return (
     <button

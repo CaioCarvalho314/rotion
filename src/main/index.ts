@@ -1,9 +1,12 @@
-import { app, shell, BrowserWindow, Tray } from 'electron'
+import { app, shell, BrowserWindow } from 'electron'
 import path from 'node:path'
 import { createFileRoute, createURLRoute } from 'electron-router-dom'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { createTray } from './tray'
 import './ipc'
 import './store'
+import { createShortcuts } from './shortcuts'
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -22,6 +25,10 @@ function createWindow(): void {
       sandbox: false,
     },
   })
+
+  createTray(mainWindow)
+  createShortcuts(mainWindow)
+
   if (process.platform === 'win32') {
     mainWindow.setIcon(path.resolve('resources', 'icon.png'))
   }
