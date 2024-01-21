@@ -26,12 +26,12 @@ function createWindow(): void {
     },
   })
 
-  createTray(mainWindow)
+  // createTray(mainWindow)
   createShortcuts(mainWindow)
 
-  if (process.platform === 'win32') {
-    mainWindow.setIcon(path.resolve('resources', 'icon.png'))
-  }
+  // if (process.platform === 'win32') {
+  //   mainWindow.setIcon(path.resolve('resources', 'icon.png'))
+  // }
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
